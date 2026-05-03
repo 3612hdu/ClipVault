@@ -2,20 +2,23 @@ import tkinter as tk
 import sys
 import os
 
-# 添加到 path 以便直接运行
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+from database import init_db
 from gui import ClipVaultGUI
 from clipboard_monitor import ClipboardMonitor
 
+
 def main():
+    # 先建表，再启动任何依赖数据库的组件
+    init_db()
+
     root = tk.Tk()
     app = ClipVaultGUI(root)
 
     monitor = ClipboardMonitor()
     monitor.start()
 
-    # 初始隐藏到托盘（简化处理：直接显示主窗口）
     root.deiconify()
 
     try:
